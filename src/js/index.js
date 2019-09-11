@@ -24,10 +24,12 @@ function startPanning(e) {
 }
 
 function stopPanning(e) {
-    isPanning = false;
     const offsetX = parseInt(e.clientX - cursorOrigin.x);
     const offsetY = parseInt(e.clientY - cursorOrigin.y);
-    triangleOrigin = { ...triangleOrigin, x: triangleOrigin.x + offsetX, y: triangleOrigin.y + offsetY };
+    if (isPanning) {
+        triangleOrigin = { ...triangleOrigin, x: triangleOrigin.x + offsetX, y: triangleOrigin.y + offsetY };
+    }
+    isPanning = false;
 }
 
 function pan(e) {
