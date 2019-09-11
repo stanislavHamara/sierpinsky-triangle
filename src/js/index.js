@@ -7,8 +7,10 @@ let isPanning = false;
 let cursorOrigin = { x: 0, y: 0 }
 let triangleOrigin = { x: 0, y: canvas.width }
 let triangleSize = canvas.width
+let recursionCount = 5;
+let recursionRedrawLimit = 0;
 
-drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, 5)
+drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, recursionCount)
 
 canvas.addEventListener('mousedown', startPanning)
 canvas.addEventListener('mouseup', stopPanning)
@@ -33,7 +35,7 @@ function pan(e) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const offsetX = parseInt(e.clientX - cursorOrigin.x);
         const offsetY = parseInt(e.clientY - cursorOrigin.y);
-        drawSierpinskyTriangle(ctx, triangleOrigin.x + offsetX, triangleOrigin.y + offsetY, triangleSize, 5);
+        drawSierpinskyTriangle(ctx, triangleOrigin.x + offsetX, triangleOrigin.y + offsetY, triangleSize, recursionCount);
     }
 }
 
@@ -43,6 +45,12 @@ function zoom(e) {
     triangleSize = zoomDirection > 0
         ? triangleSize * 1.05
         : triangleSize * 0.95
+
+    recursionRedrawLimit++;
+    if (recursionRedrawLimit === 20) {
+        recursionCount = recursionCount + zoomDirection
+        recursionRedrawLimit = 0
+    }
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, 5);
+    drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, recursionCount);
 }
