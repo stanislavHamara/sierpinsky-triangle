@@ -6,16 +6,15 @@ const ctx = canvas.getContext('2d')
 let isPanning = false;
 let cursorOrigin = { x: 0, y: 0 }
 let triangleOrigin = { x: 0, y: canvas.width }
+let triangleSize = canvas.width
 
-drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, canvas.height, 5)
+drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, 5)
 
 canvas.addEventListener('mousedown', startPanning)
 canvas.addEventListener('mouseup', stopPanning)
 canvas.addEventListener('mouseout', stopPanning)
 canvas.addEventListener('mousemove', pan)
-canvas.addEventListener('wheel', () => {
-    console.log('wheel')
-})
+canvas.addEventListener('wheel', zoom)
 
 function startPanning(e) {
     isPanning = true;
@@ -34,6 +33,16 @@ function pan(e) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const offsetX = parseInt(e.clientX - cursorOrigin.x);
         const offsetY = parseInt(e.clientY - cursorOrigin.y);
-        drawSierpinskyTriangle(ctx, triangleOrigin.x + offsetX, triangleOrigin.y + offsetY, canvas.height, 5);
+        drawSierpinskyTriangle(ctx, triangleOrigin.x + offsetX, triangleOrigin.y + offsetY, triangleSize, 5);
     }
+}
+
+function zoom(e) {
+    e.preventDefault();
+    const zoomDirection = Math.sign(e.deltaY)
+    triangleSize = zoomDirection > 0
+        ? triangleSize * 1.05
+        : triangleSize * 0.95
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, 5);
 }
