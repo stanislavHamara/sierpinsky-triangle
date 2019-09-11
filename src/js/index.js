@@ -45,14 +45,17 @@ function zoom(e) {
     e.preventDefault();
     const zoomDirection = Math.sign(e.deltaY)
     triangleSize = zoomDirection > 0
-        ? triangleSize * 1.05
-        : triangleSize * 0.95
+        ? triangleSize * 1.01
+        : triangleSize * 0.99
 
     recursionRedrawLimit++;
-    if (recursionRedrawLimit === 20) {
+    if (recursionRedrawLimit === 50) {
         recursionCount = recursionCount + zoomDirection
         recursionRedrawLimit = 0
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, recursionCount);
+
+    if (recursionCount >= 0) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, recursionCount);
+    }
 }
