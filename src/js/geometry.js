@@ -7,7 +7,6 @@ export const drawSierpinskyTriangle = (ctx, x, y, size, depth) => {
         drawSierpinskyTriangle(ctx, x, y, halfSize, depth)
         drawSierpinskyTriangle(ctx, x + halfSize, y, halfSize, depth)
         drawSierpinskyTriangle(ctx, x + halfSize / 2, y - getTriangleHeight(halfSize), halfSize, depth)
-
     }
 }
 
