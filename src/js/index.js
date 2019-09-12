@@ -20,14 +20,20 @@ canvas.addEventListener('wheel', zoom)
 
 function startPanning(e) {
     isPanning = true;
-    cursorOrigin = { ...cursorOrigin, x: e.clientX, y: e.clientY };
+    cursorOrigin = {
+        x: e.clientX,
+        y: e.clientY
+    };
 }
 
 function stopPanning(e) {
     const offsetX = parseInt(e.clientX - cursorOrigin.x);
     const offsetY = parseInt(e.clientY - cursorOrigin.y);
     if (isPanning) {
-        triangleOrigin = { ...triangleOrigin, x: triangleOrigin.x + offsetX, y: triangleOrigin.y + offsetY };
+        triangleOrigin = {
+            x: triangleOrigin.x + offsetX,
+            y: triangleOrigin.y + offsetY
+        };
     }
     isPanning = false;
 }
@@ -54,12 +60,16 @@ function zoom(e) {
 
     const triagleHeight = getTriangleHeight(triangleSize)
     if (zoomDirection > 0) {
-        triangleOrigin.x = triangleOrigin.x - (triangleSize * scale / 2)
-        triangleOrigin.y = triangleOrigin.y + (triagleHeight * scale / 2)
+        triangleOrigin = {
+            x: triangleOrigin.x - (triangleSize * scale / 2),
+            y: triangleOrigin.y + (triagleHeight * scale / 2)
+        }
         triangleSize = triangleSize * (1 + scale)
     } else {
-        triangleOrigin.x = triangleOrigin.x + (triangleSize * scale / 2)
-        triangleOrigin.y = triangleOrigin.y - (triagleHeight * scale / 2)
+        triangleOrigin = {
+            x: triangleOrigin.x + (triangleSize * scale / 2),
+            y: triangleOrigin.y - (triagleHeight * scale / 2)
+        }
         triangleSize = triangleSize * (1 - scale)
     }
 
