@@ -44,18 +44,26 @@ function pan(e) {
 function zoom(e) {
     e.preventDefault();
     const zoomDirection = Math.sign(e.deltaY)
-    triangleSize = zoomDirection > 0
-        ? triangleSize * 1.01
-        : triangleSize * 0.99
+    const scale = 0.1
 
     recursionRedrawLimit++;
-    if (recursionRedrawLimit === 50) {
+    if (recursionRedrawLimit === 5) {
         recursionCount = recursionCount + zoomDirection
         recursionRedrawLimit = 0
+    }
+
+    if (zoomDirection > 0) {
+        triangleOrigin.x = triangleOrigin.x - (triangleSize * scale / 2)
+        triangleSize = triangleSize * (1 + scale)
+    } else {
+        triangleOrigin.x = triangleOrigin.x + (triangleSize * scale / 2)
+        triangleSize = triangleSize * (1 - scale)
     }
 
     if (recursionCount >= 0) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         drawSierpinskyTriangle(ctx, triangleOrigin.x, triangleOrigin.y, triangleSize, recursionCount);
     }
+
+
 }
