@@ -1,4 +1,4 @@
-const drawSierpinskyTriangle = (ctx, x, y, size, depth) => {
+export const drawSierpinskyTriangle = (ctx, x, y, size, depth) => {
     if (depth === 0) {
         drawTriangle(ctx, x, y, size)
     } else {
@@ -6,17 +6,19 @@ const drawSierpinskyTriangle = (ctx, x, y, size, depth) => {
         const halfSize = size / 2
         drawSierpinskyTriangle(ctx, x, y, halfSize, depth)
         drawSierpinskyTriangle(ctx, x + halfSize, y, halfSize, depth)
-        drawSierpinskyTriangle(ctx, x + halfSize / 2, y - getTriangleHeight(y, halfSize), halfSize, depth)
+        drawSierpinskyTriangle(ctx, x + halfSize / 2, y - getTriangleHeight(halfSize), halfSize, depth)
 
     }
 }
+
+export const getTriangleHeight = (size) => size * (Math.sqrt(3) / 2)
 
 const drawTriangle = (ctx, x, y, size) => {
     ctx.beginPath()
 
     ctx.moveTo(x, y);
     ctx.lineTo(x + size, y);
-    ctx.lineTo((x + size / 2), y - getTriangleHeight(y, size))
+    ctx.lineTo((x + size / 2), y - getTriangleHeight(size))
     ctx.lineTo(x, y)
 
     ctx.lineWidth = 1;
@@ -30,6 +32,3 @@ const drawTriangle = (ctx, x, y, size) => {
 }
 
 
-const getTriangleHeight = (y, size) => size * (Math.sqrt(3) / 2)
-
-export default drawSierpinskyTriangle
